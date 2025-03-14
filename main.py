@@ -151,3 +151,57 @@ with open('./studentai.txt', encoding="utf8") as failas: #perskaito teksta ir uz
 print(studentai) #atspausdina visus elementus
 print(studentai[1]) # atspausdina pirma eilute po lenteles pavadinimu (header)
 print(studentai[1]['pavarde']) # istraukia pirmos eilutes studenta, pagal raktini zodi 'pavarde'
+
+print('===RASYMAS I FAILA/ FAILO PILDYMAS===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\rasymui.txt', 'w') as failas:
+    failas.write('pirma\n')
+    failas.write('antra\n')
+    failas.write('trecia\n')
+    failas.write('ketvirta\n')
+
+print('===KARTOTI DAUG KARTU TA PATI TEKSTA===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\rasymui.txt', 'w') as failas: #'w' - rasymas i faila, 'a' - rasymas i faila, ji papildant, 'r+' - failo skaitymas ir rasymas, 'r' - failo nuskaitymas
+    failas.write('LABAS\n' * 5)
+
+print('===PAPILDOMAS FAILAS TEKSTU===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\rasymui.txt', 'a') as failas:
+    failas.write('siandien sviecia saule\n')
+    failas.write('ir yra daug sniego')
+
+print('===FAILAS PERSKAITOMAS IR PAPILDOMAS TEKSTU===') # tekstas atsiranda failo virsuje. r+ gali dirbti tik su egzistuojanciais failais
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\rasymui.txt', 'r+') as failas:
+    failas.write('siandien sviecia saule\n')
+    failas.write('ir yra daug sniego\n')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\auto.txt') as failas:
+    tekstas = failas.read()
+    print(tekstas)
+
+automobiliai = []
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\auto.txt') as failas:
+    for eilute in failas: # suka cikla kiekvienai eilutei
+        eilute = eilute.rstrip('\n') # nuimame nereikalinga simboli eilutes gale (\n)
+        isskaidyta = eilute.split(';')
+        automobilis = dict(
+            marke = isskaidyta[0],
+            modelis = isskaidyta[1],
+            metai = isskaidyta[2],
+            variklis = isskaidyta[3]
+        )
+        automobiliai.append(automobilis)
+# print(automobiliai)
+# print(automobiliai[1])
+# print(automobiliai[2] ['metai'])
+
+metai = [int(automobilis['metai']) for automobilis in automobiliai]
+print(metai)
+vidurkis= sum(metai) / len(metai)
+print(f'Automobiliu metu vidurkis: {vidurkis:.0f}')
+
+with open('./rezultatai.txt', 'w') as failas:
+    failas.write(f'Automobiliu metu vidurkis: {vidurkis:.0f}') # .0 - parodo, kiek skaičių po kablelio (šiuo atveju 0 skaičiai), f - reiškia, kad tai "float" tipo skaičius (dešimtainis)
+
