@@ -1,4 +1,4 @@
-
+from csv import reader, writer, DictWriter
 
 failas = open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\studentai.txt')
 nuskaitytas_tekstas = failas.read() #perskaito faila
@@ -205,3 +205,102 @@ print(f'Automobiliu metu vidurkis: {vidurkis:.0f}')
 with open('./rezultatai.txt', 'w') as failas:
     failas.write(f'Automobiliu metu vidurkis: {vidurkis:.0f}') # .0 - parodo, kiek skaičių po kablelio (šiuo atveju 0 skaičiai), f - reiškia, kad tai "float" tipo skaičius (dešimtainis)
 
+print('===CSV FAILO SKAITYMAS csv_reader===')
+
+from csv import reader, DictReader
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as failas:
+    csv_reader = reader(failas)
+    for eilute in csv_reader: #suka cikla ir spausdina kas eilute
+        print(eilute)
+
+print('=== PRASOKA I ANTRA EILUTE. FUNKCIJA NEXT===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as failas:
+    csv_reader = reader(failas)
+    next(csv_reader) # praleidziam pirma eilute. Duomenys be Hederio
+    for eilute in csv_reader:
+        print(eilute)
+
+print('===NORIMO ELENTO ISTRAUKIMAS===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as failas:
+    csv_reader = reader(failas)
+    next(csv_reader) # praleidziam pirma eilute
+    for eilute in csv_reader:
+        print(f'customer: {eilute[0]} {eilute[2]}, gyvena: {eilute[6]}') # istraukia norimus elementus, pvz.0, 2, 6
+
+print('===FUNKCIJA LIST===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as failas:
+    csv_reader = reader(failas)
+    duomenys = list(csv_reader) # gaunam viska iskart(dvimatis masyvas)
+    print(duomenys)
+
+print('===FUNKCIJA LIST SU NORIMU ISTRAUKTI ELEMENTU===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as failas:
+    csv_reader = reader(failas)
+    duomenys = list(csv_reader)  # gaunam viska iskart(dvimatis masyvas)
+    print(duomenys[2][3]) #[2] - norima eilute, [3] - norimas stulpelis
+
+print('===DICTREADER PERSOKA IS KARTO I ANTRA EILUTE, NEIMA HEADERIO==='
+      )
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as file:
+    csv_reader = DictReader(file)
+    for row in csv_reader:
+        print(row)
+
+print('===ATSPAUSDINA DUOMENIS PAGAL NORIM1 RAKTAZODI===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as file:
+    csv_reader = DictReader(file)
+    for row in csv_reader: #ciklas ima kiekviena eilute
+        print(row['First Name']) #is kiekvienos eilutes atspausdina tik duomenis pagal raktazodi
+
+print('===PVZ===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as file:
+    csv_reader = DictReader(file)
+    for row in csv_reader:
+        print(f"Customer {row['First Name']} {row['Last Name']} live {row['Country']}")
+
+print('===DUOMENU ATSKIRIMAS SKIRTUKU===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\customers-100.csv', encoding='utf8') as file:
+    csv_reader = DictReader(file, delimiter=",") # delimiter leidzia pakeisti skirtuka csv faile
+    for row in csv_reader:
+        print(f"Customer {row['First Name']} {row['Last Name']} live {row['Country']}")
+
+print('===RASYMAS I CSV FAILA===')
+
+print('===WRITE RASOMA VIENA EILUTE VIENU METU===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas.csv', 'w', newline='') as file:
+    csv_writer = writer(file)
+    csv_writer.writerow(['Customer Id', 'First Name'])
+    csv_writer.writerow
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas.csv', 'w', newline='') as file:
+    csv_writer = writer(file)
+    csv_writer.writerow(['2025', 'Julija'])
+    csv_writer.writerow
+
+print('===IRASUS PAKEICIA I DIDZIASIAS RAIDES===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas.csv') as file:
+    csv_reader = reader(file)
+    cats = [ [s.upper() for s in row] for row in csv_reader ]
+    print(cats)
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas.csv', 'w', newline='') as file:
+    csv_writer = writer(file)
+    csv_writer.writerows(cats)
+
+print('===VIENO FAILO SKITYMAS IR RASYMAS I KITA FAILA===')
+
+with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas.csv') as file_read:
+    csv_reader = reader(file_read)
+    with open('C:\\Users\\lucky\\PycharmProjects\\Darbas_su_failais\\bandymas_2.csv', 'w', newline='') as file_write:
+        csv_writer = writer(file_write)
+        for cat in csv_reader:
+            csv_writer.writerow(cat)
